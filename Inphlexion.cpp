@@ -78,6 +78,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	vec3<Real> pos(0,0,0), vel(1.,1.,1.);
 	Real dTime = 0.01;
 	vec3<Real> npos, nvel;
+
+	//(*euler)(pos, vel, *po->GetDelegate(), dTime, npos, nvel);
+
+	po->SetIntegrationMethod(IPhysicalObject::IntegrationMethod::EULER_RICHARDSON);
+
+	euler = po->GetIntegrator();
+
 	(*euler)(pos, vel, *po->GetDelegate(), dTime, npos, nvel);
 
 	cout<<length(npos)<<" "<<length(nvel);

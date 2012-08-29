@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Integrators">
       <UniqueIdentifier>{007b5fae-4b90-4def-b455-b2b710b895b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Integrators">
+      <UniqueIdentifier>{e6b7f2ec-c779-4719-adda-d7ee69296314}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -102,7 +105,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IPhysicalObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Integrators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

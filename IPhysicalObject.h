@@ -3,9 +3,32 @@
 #include "AccelerationDelegate.h"
 #include "MassPoint.h"
 
+#include "IIntegrator.h"
+
 class IPhysicalObject
 {
+public:
+	enum IntegrationMethod
+	{
+		EXPLICIT_EULER,
+		SYMPLECTIC_EULER,
+		MIDPOINT,
+		HALF_STEP,
+		EULER_RICHARDSON,
+		VELOCITY_VERLET,
+		POSITION_VERLET,
+		SYMPLECTIC_MIDPOINT,
+		RUNGE_KUTTA_4
+	};
+
 protected:
+
+	//! The chosen integration method (strategy pattern)
+	int integrationStrategy;
+
+	//! Integration strategy/method
+	IIntegrator<IPhysicalObject> * integrator;
+
 	//! Number of mass points the object consists of.
 	int nPoints; 
 
@@ -28,17 +51,28 @@ protected:
 	//! Acceleration delegate member.
 	AccelerationDelegate<IPhysicalObject> accDel;
 
-	IPhysicalObject(void): accDel(*this, &IPhysicalObject::Acceleration)
+	//! default empty constructor.
+	IPhysicalObject(void): accDel(*this, &IPhysicalObject::Acceleration), integrationStrategy(0)
 	{
+		this->SetIntegrationMethod(integrationStrategy);
 	}
 
+	//! Custom constructor
+	/*!
+		\param points represents a vector of points that describe the initial positions of the body's particles
+		\param radius is the radius of the object along its longest dimension
+		\param mass the total body mass
+	*/
 	IPhysicalObject(const vector<vec3<Real> >& points, const Real& radius, const Real& mass);
 
+	//! empty virtual destructor
 	virtual ~IPhysicalObject(void)
 	{
 	}
 
 public:
+
+	void SetIntegrationMethod(int methodType);
 
 	//! Acceleration function.
 	/*!
@@ -60,6 +94,11 @@ public:
 		\return the delegate wrapped acceleration method
 	*/
 	virtual AccelerationDelegate<IPhysicalObject>* GetDelegate() = 0;
+
+	IIntegrator<IPhysicalObject>* GetIntegrator()
+	{
+		return integrator;
+	}
 
 	//! Resets the mass point displacement accumulators.
 	void ResetDisplacements();

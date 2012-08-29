@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "IPhysicalObject.h" 
+#include "Integrators.h"
+#include "TypeDefs.h"
 
 IPhysicalObject::IPhysicalObject(const vector<vec3<Real> >& points, const Real& radius, const Real& mass):
-									accDel(*this, &IPhysicalObject::Acceleration), rad(radius), mass(mass)
+									accDel(*this, &IPhysicalObject::Acceleration), rad(radius), mass(mass),
+										integrationStrategy(0)
  {
 	 nPoints = points.size();
 	 // reserve mass point vectors
@@ -12,8 +15,49 @@ IPhysicalObject::IPhysicalObject(const vector<vec3<Real> >& points, const Real& 
 		 this->points[idx] = MassPoint(points[idx]);
 		 this->points[idx].SetMass(mass / nPoints);
 	 }
+
+	 this->SetIntegrationMethod(integrationStrategy);
  }
 
+
+void IPhysicalObject::SetIntegrationMethod(int methodType)
+{
+	switch (methodType)
+	{
+		case IntegrationMethod::EXPLICIT_EULER:
+			integrator = ExplicitEulerSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::SYMPLECTIC_EULER:
+			integrator = SymplecticEulerSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::MIDPOINT:
+			integrator = MidpointSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::HALF_STEP:
+			integrator = HalfStepSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::EULER_RICHARDSON:
+			integrator = EulerRichardsonSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::SYMPLECTIC_MIDPOINT:
+			integrator = SymplecticMidpointSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::VELOCITY_VERLET:
+			integrator = VelocityVerletSingleton::GetInstance();
+		break;
+
+		case IntegrationMethod::POSITION_VERLET:
+		default:
+			integrator = IntegratorSingleton::GetInstance();
+		break;
+	}
+}
 void IPhysicalObject::ResetDisplacements()
 {
 	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
