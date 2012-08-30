@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Integrators">
       <UniqueIdentifier>{e6b7f2ec-c779-4719-adda-d7ee69296314}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{cc611682-247d-4fba-af82-e4f29308e804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{e607e9f2-824a-4721-a957-f088757bf54c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -30,9 +36,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IPhysicalObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vector_math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,13 +45,7 @@
     <ClInclude Include="AccelerationDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DummyDLO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TSingleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MassPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeometricUtilities.h">
@@ -90,6 +87,18 @@
     <ClInclude Include="RungeKutta4.h">
       <Filter>Header Files\Integrators</Filter>
     </ClInclude>
+    <ClInclude Include="IPhysicalObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyDLO.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MassPoint.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TorsionDLO.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -98,14 +107,17 @@
     <ClCompile Include="Inphlexion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MassPoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeometricUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IPhysicalObject.cpp">
       <Filter>Source Files\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="MassPoint.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TorsionDLO.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -42,6 +42,14 @@ protected:
 	Real Kl;
 	/// torsion spring stiffness constant
 	Real Kt;
+	/// Linear damping coefficient
+	Real Kd;
+	/// Torsion spring coefficient
+	Real Kts;
+	/// Torsion damper coefficient
+	Real Ktd;
+	/// Swivel damper coefficient
+	Real Ksw;
 	/// Damping coefficient.
 	Real bDamping;
 
@@ -72,7 +80,16 @@ protected:
 
 public:
 
-	void SetIntegrationMethod(int methodType);
+	/************************************************************************/
+	/* Render                                                               */
+	/************************************************************************/
+
+	//! Render method stub. Each object must provide a render function.
+	virtual void Render() = 0;
+
+	/************************************************************************/
+	/* Physics                                                              */
+	/************************************************************************/
 
 	//! Acceleration function.
 	/*!
@@ -89,11 +106,21 @@ public:
 	*/
 	virtual void Update() = 0;
 
+	/************************************************************************/
+	/* Getters/Setters                                                      */
+	/************************************************************************/
+
+	//! Sets the integration method (using a value from the enum containing the options)
+	void SetIntegrationMethod(int methodType);
+
 	//! Acceleration delegate getter.
 	/*!
 		\return the delegate wrapped acceleration method
 	*/
-	virtual AccelerationDelegate<IPhysicalObject>* GetDelegate() = 0;
+	virtual AccelerationDelegate<IPhysicalObject>* GetDelegate()
+	{
+		return &this->accDel;
+	}
 
 	IIntegrator<IPhysicalObject>* GetIntegrator()
 	{
@@ -119,6 +146,29 @@ public:
 	void SetKt(Real value)
 	{
 		Kt = value;
+	}
+
+	//! sets the linear damper coefficient
+	void SetKd(Real value)
+	{
+		Kd = value;
+	}
+	
+	//! sets the torsion spring coefficient
+	void SetKts(Real value)
+	{
+		Kts = value;
+	}
+
+	//! sets the torsion damper coefficient
+	void SetKtd(Real value)
+	{
+		Ktd = value;
+	}
+	//! sets the swivel damper coefficient
+	void SetKsw(Real value)
+	{
+		Ksw = value;
 	}
 
 	//! sets the fraction used to accumulate length preserving displacements

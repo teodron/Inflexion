@@ -21,6 +21,9 @@
 	{
 		friend ostream& operator<<(ostream& output, const MassPoint& p);
 
+		//! TorsionDLO is made of mass points, hence it is allowed to access its privates.
+		friend class TorsionDLO;
+
 	private:
 		/// positions
 		vec3<Real> r, rMinus, rPlus, r0;

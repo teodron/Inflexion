@@ -22,5 +22,11 @@ typedef double Real;
 using namespace vmath;
 using namespace std;
 
+//! The null vector
 const vec3<Real> zeroVec(0.,0.,0.);
+
+//! Time step
 const Real dTime = 0.001;
+
+//! gravitational constant
+const Real gravity = 9.8;

@@ -11,13 +11,18 @@ public:
 		 cout<<" Dummy acceleration ";
 		 return pos + vel;
 	 }
-
+	 /*
 	 AccelerationDelegate<IPhysicalObject>* GetDelegate()
 	 {
 		 return &this->accDel;
 	 }
-
+	 */
 	 void Update()
+	 {
+
+	 }
+
+	 void Render()
 	 {
 
 	 }
