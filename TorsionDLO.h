@@ -5,8 +5,7 @@
 class TorsionDLO : public IPhysicalObject
 {
 private:
-	//! The index of the current point/particle that is being updated.
-	int currentPointIndex;
+
 
 	//! The acceleration of the current particle of this DLO
 	vec3<Real> Acceleration(const vec3<Real>& pos,const vec3<Real>& vel);
@@ -33,6 +32,7 @@ public:
 	\todo complete this function with additional synchronization and residue updates
 	*/
 	void Update();
+
 
 	void Render();
 };

@@ -25,7 +25,7 @@ public:
 
 	//! Default integration method operator: Position Verlet
 	/*!
-		There is no reason to make this method virtual since only the position Verlet uses this signature.
+		There is no reason to make this operator() virtual since only the position Verlet uses this signature.
 
 		\param posIn the input position of a particle
 		\param velIn the input velocity of a particle
@@ -39,5 +39,11 @@ public:
 	{
 		posOut = 2.0 * posIn - prevPosIn + accDel(posIn, velIn) * dTime * dTime;
 		velOut = (posOut - prevPosIn) / (2.0 * dTime);
+	}
+
+	//! virtual empty destructor.
+	virtual ~IIntegrator()
+	{
+				
 	}
 };

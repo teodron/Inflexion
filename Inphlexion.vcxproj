@@ -100,7 +100,6 @@
     <ClInclude Include="VelocityVerlet.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeometricUtilities.cpp" />
     <ClCompile Include="Inphlexion.cpp" />
     <ClCompile Include="IPhysicalObject.cpp" />
     <ClCompile Include="MassPoint.cpp" />

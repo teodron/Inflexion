@@ -107,16 +107,13 @@
     <ClCompile Include="Inphlexion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeometricUtilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IPhysicalObject.cpp">
-      <Filter>Source Files\Integrators</Filter>
-    </ClCompile>
     <ClCompile Include="MassPoint.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="TorsionDLO.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="IPhysicalObject.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>

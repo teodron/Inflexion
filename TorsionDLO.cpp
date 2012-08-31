@@ -93,6 +93,9 @@ vec3<Real> TorsionDLO::Acceleration(const vec3<Real>& pos,const vec3<Real>& vel)
 	// add external force contributions and viscous drag
 	acceleration += points[currentPointIndex].df / points[currentPointIndex].mass - bDamping * vel / mass;
 
+	// store the force for future use (e.g. collision handling)
+	points[currentPointIndex].f = acceleration * mass;
+
 	return acceleration;
 }
 
@@ -100,11 +103,13 @@ vec3<Real> TorsionDLO::Acceleration(const vec3<Real>& pos,const vec3<Real>& vel)
 
 void TorsionDLO::Update()
 {
-	for (currentPointIndex = 0; currentPointIndex < nPoints; ++currentPointIndex)
-	{
-		if (integrationStrategy != IPhysicalObject::IntegrationMethod::POSITION_VERLET)
-			(*integrator)(points[currentPointIndex].r, points[currentPointIndex].v, accDel, dTime, points[currentPointIndex].rPlus, points[currentPointIndex].vPlus);
-		else
-			(*integrator)(points[currentPointIndex].r, points[currentPointIndex].v, points[currentPointIndex].rMinus, accDel, dTime, points[currentPointIndex].rPlus, points[currentPointIndex].vPlus);
-	}
+	Integrate();
+
+	ResetDisplacements();
+	//Apply position constraints (length-preserving)
+
+	ResetAllAccumulators();
+	// HandleCollisions
+	// Synchronize (copy state(t) to state(t - deltaT) and state(t + deltaT) to state(t) 
+
 }

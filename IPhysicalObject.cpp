@@ -58,6 +58,17 @@ void IPhysicalObject::SetIntegrationMethod(int methodType)
 		break;
 	}
 }
+
+void IPhysicalObject::Integrate()
+{
+	for (currentPointIndex = 0; currentPointIndex < nPoints; ++currentPointIndex)
+	{
+		if (integrationStrategy != IPhysicalObject::IntegrationMethod::POSITION_VERLET)
+			(*integrator)(points[currentPointIndex].r, points[currentPointIndex].v, accDel, dTime, points[currentPointIndex].rPlus, points[currentPointIndex].vPlus);
+		else
+			(*integrator)(points[currentPointIndex].r, points[currentPointIndex].v, points[currentPointIndex].rMinus, accDel, dTime, points[currentPointIndex].rPlus, points[currentPointIndex].vPlus);
+	}
+}
 void IPhysicalObject::ResetDisplacements()
 {
 	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
@@ -78,6 +89,16 @@ void IPhysicalObject::ResetForces()
 {
 	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
 	{
+		it->ResetForce();
+	}
+}
+
+void IPhysicalObject::ResetAllAccumulators()
+{
+	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
+	{
+		it->ResetDisplacement();
+		it->ResetRestitutionVelocity();
 		it->ResetForce();
 	}
 }

@@ -32,6 +32,9 @@ protected:
 	//! Number of mass points the object consists of.
 	int nPoints; 
 
+	//! The index of the current point/particle that is being updated.
+	int currentPointIndex;
+
 	/// the radius of this model ( the circumscribed circle radius for each right RQP triangle)
 	Real rad;
 	/// the total DLO mass
@@ -76,6 +79,7 @@ protected:
 	//! empty virtual destructor
 	virtual ~IPhysicalObject(void)
 	{
+
 	}
 
 public:
@@ -98,6 +102,9 @@ public:
 		\return the acceleration vector of a particle that is internally set as the current particle through a specific state variable.
 	*/
 	virtual vec3<Real> Acceleration(const vec3<Real>& pos,const vec3<Real>& vel) = 0;
+
+	//! Integrates numerically all points to find the parameters of the next time instance.
+	void Integrate();
 
 	//! Updates the dynamics and kinematics of the body
 	/*!
@@ -135,6 +142,9 @@ public:
 
 	//! Resets the mass point force offset accumulators.
 	void ResetForces();
+
+	//! Resets all accumulators (displacement, velocity and force)
+	void ResetAllAccumulators();
 
 	//! sets the linear spring constant.
 	void SetKl(Real value)

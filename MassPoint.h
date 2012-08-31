@@ -24,6 +24,8 @@
 		//! TorsionDLO is made of mass points, hence it is allowed to access its privates.
 		friend class TorsionDLO;
 
+		friend class IPhysicalObject;
+
 	private:
 		/// positions
 		vec3<Real> r, rMinus, rPlus, r0;
@@ -48,31 +50,23 @@
 			// friend class VolumetricDOO;
 		private:
 			/**
-			* \brief Perform collision detection and handling between two volumetric segments
+			* \brief Perform collision detection and handling between two DLO segments
 			* The function accumulates collision response forces (reaction and friction), restitution velocities (from impulses)
 			* and displacement penalties (from projected constraints). Collisions are handled asynchronously for all colliding
-			* segment pairs. Each pair consists of a capped cylindrical tube whose endpoints are the centers of gravity of the
-			* structural triangles of the DLO. For example, a collision pair consists of triangles
-			* \f$T_i T_{i+1}\f$ and \f$T_j T_{j+1}\f$. 
-			* \param Pi - vertex of the (PiQiRi) triangle
-			* \param Qi - vertex of the (PiQiRi) triangle
-			* \param Ri - vertex of the (PiQiRi) triangle
-			* \param Pip1 - vertex of the (Pip1Qip1Rip1) triangle
-			* \param Qip1 - vertex of the (Pip1Qip1Rip1) triangle
-			* \param Rip1 - vertex of the (Pip1Qip1Rip1) triangle
-			* \param Pj - vertex of the (PjQjRj) triangle
-			* \param Qj - vertex of the (PjQjRj) triangle
-			* \param Rj - vertex of the (PjQjRj) triangle
-			* \param Pjp1 - vertex of the (Pjp1Qjp1Rjp1) triangle
-			* \param Qjp1 - vertex of the (Pjp1Qjp1Rjp1) triangle
-			* \param Rjp1 - vertex of the (Pjp1Qjp1Rjp1) triangle
+			* segment pairs. Each pair consists of a capped cylindrical tube.
+
+			* \param Pi - endpoint of cylinder i
+			* \param Pip1 - other endpoint of cylinder i
+
+			* \param Pj - endpoint of cylinder j
+			* \param Pjp1 - other endpoint of cylinder j
+
 			* \param rad - the radius of the volumetric segment
 			* \param mu - friction coefficient
 			*/
-			static void CollideLinks(MassPoint * Pi, MassPoint * Qi, MassPoint * Ri,
-							  MassPoint * Pip1, MassPoint * Qip1, MassPoint * Rip1,
-							  MassPoint * Pj, MassPoint * Qj, MassPoint * Rj,
-							  MassPoint * Pjp1, MassPoint * Qjp1, MassPoint * Rjp1, const Real & rad, const Real& mu);
+			static void CollideLinks(MassPoint * Pi,  MassPoint * Pip1,
+							  MassPoint * Pj,  MassPoint * Pjp1,
+							  const Real & rad, const Real& mu);
 		};
 
 		/// Creates a static mass point at a specified position

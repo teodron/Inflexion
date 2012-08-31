@@ -80,4 +80,14 @@ template <typename Numeric>
 		~GeometricUtilities(void);
 	};
 
+	template <typename Numeric>
+	GeometricUtilities<Numeric>::GeometricUtilities(void)
+	{
+	}
+
+	template <typename Numeric>
+	GeometricUtilities<Numeric>::~GeometricUtilities(void)
+	{
+	}
+
 
