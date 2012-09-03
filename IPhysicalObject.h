@@ -55,6 +55,8 @@ protected:
 	Real Ksw;
 	/// Damping coefficient.
 	Real bDamping;
+	/// friction coefficient
+	Real mu;
 
 	//! Vector of mass points that make up a conceptual physical object.
 	vector<MassPoint> points;
@@ -108,10 +110,29 @@ public:
 
 	//! Updates the dynamics and kinematics of the body
 	/*!
-		Pure virtual method symbolizing an update step of the entire physical object via
+		Virtual method corresponding to an update step of the entire physical object via
 		numerical integration.
 	*/
-	virtual void Update() = 0;
+	virtual void Update();
+
+	//! Computes restitution velocities, friction and reaction forces in case the object collides with itself
+	/*!
+		The points of the object are updated later on with the aid of the information
+		stored in their accumulators for each Physics related parameter (i.e.
+		displacements, velocities and forces)
+	*/
+	virtual void HandleSelfCollision();
+
+	//! Position-based dynamics projected constraints
+	/*!
+		For further details, consult the works of Provot, Jakobsen and any relevant
+		literature on position-based dynamics. The way these constraints are implemented
+		reflect an iterative process that has been proved to converge for most cases.
+	*/
+	virtual void ComputeConstraintContributions();
+
+	//! Computes the forces after an integration step via finite differencing
+	void ComputeForces();
 
 	/************************************************************************/
 	/* Getters/Setters                                                      */
@@ -129,6 +150,7 @@ public:
 		return &this->accDel;
 	}
 
+	//! Returns the current integrator this object uses for updates
 	IIntegrator<IPhysicalObject>* GetIntegrator()
 	{
 		return integrator;
@@ -145,6 +167,15 @@ public:
 
 	//! Resets all accumulators (displacement, velocity and force)
 	void ResetAllAccumulators();
+
+	//! Corrects the positions adding accumulated displacements
+	void ComputeCorrectedPositions();
+
+	//! Corrects the new velocities adding accumulated velocity offsets
+	void ComputeCorrectedVelocities();
+
+	//! Copies the new values into the previous value holders (both velocity and position vectors)
+	void SynchronizePositionsAndVelocities();
 
 	//! sets the linear spring constant.
 	void SetKl(Real value)

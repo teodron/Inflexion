@@ -28,10 +28,6 @@ public:
 	{
 
 	}
-	/*!
-	\todo complete this function with additional synchronization and residue updates
-	*/
-	void Update();
 
 
 	void Render();

@@ -93,23 +93,5 @@ vec3<Real> TorsionDLO::Acceleration(const vec3<Real>& pos,const vec3<Real>& vel)
 	// add external force contributions and viscous drag
 	acceleration += points[currentPointIndex].df / points[currentPointIndex].mass - bDamping * vel / mass;
 
-	// store the force for future use (e.g. collision handling)
-	points[currentPointIndex].f = acceleration * mass;
-
 	return acceleration;
-}
-
-// Perform one update step on all mass points
-
-void TorsionDLO::Update()
-{
-	Integrate();
-
-	ResetDisplacements();
-	//Apply position constraints (length-preserving)
-
-	ResetAllAccumulators();
-	// HandleCollisions
-	// Synchronize (copy state(t) to state(t - deltaT) and state(t + deltaT) to state(t) 
-
 }

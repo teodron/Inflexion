@@ -47,7 +47,7 @@
 		*/
 		static class CollisionUtilities
 		{
-			// friend class VolumetricDOO;
+			 friend class IPhysicalObject;;
 		private:
 			/**
 			* \brief Perform collision detection and handling between two DLO segments

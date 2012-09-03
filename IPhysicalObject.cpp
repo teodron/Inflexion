@@ -2,6 +2,7 @@
 #include "IPhysicalObject.h" 
 #include "Integrators.h"
 #include "TypeDefs.h"
+#include "GeometricUtilities.h"
 
 IPhysicalObject::IPhysicalObject(const vector<vec3<Real> >& points, const Real& radius, const Real& mass):
 									accDel(*this, &IPhysicalObject::Acceleration), rad(radius), mass(mass),
@@ -69,6 +70,39 @@ void IPhysicalObject::Integrate()
 			(*integrator)(points[currentPointIndex].r, points[currentPointIndex].v, points[currentPointIndex].rMinus, accDel, dTime, points[currentPointIndex].rPlus, points[currentPointIndex].vPlus);
 	}
 }
+
+void IPhysicalObject::HandleSelfCollision()
+{
+	for (size_t i = 0; i < nPoints -1; ++i)
+	{
+		for (size_t j = i + 2; j < nPoints - 1; ++j)
+		{
+			MassPoint::CollisionUtilities::CollideLinks(&points[i], &points[i+1], &points[j], &points[j+1], rad, mu);
+		}
+	}
+}
+
+void IPhysicalObject::ComputeConstraintContributions()
+{
+	for (size_t i = 0; i < nPoints - 1; ++i)
+	{
+		// pi - pi+1
+		Real currLength = length(points[i].rPlus - points[i+1].rPlus);
+		Real restLength = length(points[i].r0 - points[i+1].r0);
+		vec3<Real> displacement = - this->lengthConstraintFraction * (points[i].rPlus - points[i+1].rPlus)/ currLength * ( currLength - restLength);
+		points[i].dr += displacement;
+		points[i+1].dr += -displacement;
+	}
+}
+
+
+void IPhysicalObject::ComputeForces()
+{
+	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
+	{
+		it->f = (it->vPlus - it->v) / dTime;
+	}
+}
 void IPhysicalObject::ResetDisplacements()
 {
 	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
@@ -101,4 +135,52 @@ void IPhysicalObject::ResetAllAccumulators()
 		it->ResetRestitutionVelocity();
 		it->ResetForce();
 	}
+}
+
+void IPhysicalObject::ComputeCorrectedPositions()
+{
+	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
+	{
+		it->CorrectPosition();
+	}
+}
+
+void IPhysicalObject::ComputeCorrectedVelocities()
+{
+	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
+	{
+		it->CorrectVelocity();
+	}
+}
+
+void IPhysicalObject::SynchronizePositionsAndVelocities()
+{
+	for (vector<MassPoint>::iterator it = points.begin(); it != points.end(); ++it)
+	{
+		it->SynchronizePositionsAndVelocities();
+	}
+}
+
+void IPhysicalObject::Update()
+{
+	// compute new positions and velocities
+	Integrate();
+
+	// approximate forces
+	ComputeForces();
+
+	
+	//Apply position constraints (length-preserving)
+	ResetDisplacements();
+	ComputeCorrectedPositions();
+
+	// HandleCollisions
+	ResetAllAccumulators();
+	HandleSelfCollision();
+	ComputeCorrectedPositions();
+	ComputeCorrectedVelocities();
+
+	// Synchronize (copy state(t) to state(t - deltaT) and state(t + deltaT) to state(t) 
+	SynchronizePositionsAndVelocities();
+
 }
