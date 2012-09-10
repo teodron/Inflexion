@@ -25,9 +25,18 @@
     <Filter Include="Source Files\Objects">
       <UniqueIdentifier>{e607e9f2-824a-4721-a957-f088757bf54c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{fd9a853f-2b0c-45d0-916e-b982b8ae68ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="vshader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="fshader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -99,6 +108,12 @@
     <ClInclude Include="TorsionDLO.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderUtilities.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -115,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="IPhysicalObject.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

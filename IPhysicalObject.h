@@ -78,11 +78,7 @@ protected:
 	*/
 	IPhysicalObject(const vector<vec3<Real> >& points, const Real& radius, const Real& mass);
 
-	//! empty virtual destructor
-	virtual ~IPhysicalObject(void)
-	{
-
-	}
+	
 
 public:
 
@@ -224,5 +220,10 @@ public:
 		bDamping = value;
 	}
 
+	//! empty virtual destructor
+	virtual ~IPhysicalObject(void)
+	{
+
+	}
 };
 

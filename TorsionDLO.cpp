@@ -2,6 +2,25 @@
 #include "stdafx.h"
 #include "TorsionDLO.h"
 
+// render function
+void TorsionDLO::Render()
+{
+	for (int i = 0; i < nPoints- 1; ++i)
+	{
+		glPushMatrix();
+		glTranslatef(points[i].r.x,points[i].r.y,points[i].r.z);
+		vec3<Real> dir = points[i+1].r - points[i].r;
+		Real len = length((dir));
+		if (len > 1e-6)
+			dir /= len;
+		Real alpha = 180 / M_PI * atan2(sqrt(dir.x * dir.x + dir.y * dir.y), dir.z);
+		Real beta = 180 / M_PI * atan2(dir.y, dir.x);
+		glRotatef(beta, 0, 0, 1);
+		glRotatef(alpha, 0, 1, 0);
+		gluCylinder(cylinder, rad, rad, len, 10, 2);
+		glPopMatrix();
+	}
+}
 // The acceleration function
 vec3<Real> TorsionDLO::Acceleration(const vec3<Real>& pos,const vec3<Real>& vel)
 {
