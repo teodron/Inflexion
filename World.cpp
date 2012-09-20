@@ -43,7 +43,6 @@ void World::Init(int argc, char** argv)
 	mainShaderProgram->addUniform("lightDir", UNIFORM3);
 	mainShaderProgram->setUniform("lightDir", 1, 0 , 0);
 	
-
 	vector<vec3<Real> > positions;
 	int n = 50;
 	for (int i = 0; i < n; ++i)
@@ -57,8 +56,13 @@ void World::Init(int argc, char** argv)
 	dlo->SetKts(11.5);
 	dlo->SetKtd(.12);
 	dlo->SetKsw(0.1);
+	dlo->SetIntegrationMethod(IPhysicalObject::IntegrationMethod::MIDPOINT);
 
+	this->objects.push_back(dlo);
 
+	camPos = vec3<Real>(100,0,50);
+	lookAt = vec3<Real>(0,0,0);
+	upVector = vec3<Real>(0,0,1);
 }
 
  void World::Render()
@@ -127,6 +131,14 @@ void World::Init(int argc, char** argv)
 	{
 		camPos += vec3<Real>(0,1,0);
 		lookAt += vec3<Real>(0,1,0);
+	}
+	if (key == 'p')
+	{
+		objects[0]->Perturb(vec3<Real>(0.,0.,0.1));
+	}
+	if (key == 'u')
+	{
+		objects[0]->Update();
 	}
 
 }

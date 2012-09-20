@@ -8,6 +8,8 @@
 #include "Integrators.h"
 #include "TypeDefs.h"
 
+#include "World.h"
+
 class Delegate
 {
 protected:
@@ -59,7 +61,22 @@ public:
 };
 //typedef TSingleton<Integrator<IPhysicalObject> > IntegratorSingleton;
 
-int _tmain(int argc, _TCHAR* argv[])
+// GRAPHICS
+shared_ptr<World> world;
+void Display()
+{
+	world->Render();
+}
+void Reshape(int w, int h)
+{
+	world->Reshape(w, h);
+}
+void Keyboard(unsigned char key, int x, int y)
+{
+	world->Keyboard(key, x, y);
+}
+
+int _tmain(int argc, char* argv[])
 {
 	IPhysicalObject* po = new DummyDLO();
 	ADelegate<IPhysicalObject> ad(*po, &IPhysicalObject::Acceleration);
@@ -90,6 +107,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout<<length(npos)<<" "<<length(nvel);
 	
 	cin.get();
+
+	
+	world.reset(new World(argc, argv));
+	glutDisplayFunc(Display);
+	glutReshapeFunc(Reshape);
+	glutKeyboardFunc(Keyboard);
+	glutIdleFunc(Display);
+	glutMainLoop();
+
 	return 0;
 }
 

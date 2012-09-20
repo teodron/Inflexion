@@ -225,5 +225,11 @@ public:
 	{
 
 	}
+
+	//! for testing purposes only
+	virtual void Perturb(const vec3<Real>& v)
+	{
+		this->points[0].Perturb(v);
+	}
 };
 
