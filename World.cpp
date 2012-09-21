@@ -49,7 +49,7 @@ void World::Init(int argc, char** argv)
 	{
 		positions.push_back(vec3<Real>(5 * cos(i/4.),5 * sin(i/4.),i/4.));
 	}
-	IPhysicalObject* dlo = new TorsionDLO(positions, .3, 0.1);
+	IPhysicalObject* dlo = new TorsionDLO(positions, .3, 50*0.1);
 	dlo->SetDampingCoefficient(0.01);
 	dlo->SetKl(100);
 	dlo->SetKd(.1);

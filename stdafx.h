@@ -29,4 +29,4 @@ const vec3<Real> zeroVec(0.,0.,0.);
 const Real dTime = 0.001;
 
 //! gravitational constant
-const Real gravity = 9.8;
+const Real gravity = 0.0;//9.8;
