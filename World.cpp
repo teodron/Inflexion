@@ -49,14 +49,16 @@ void World::Init(int argc, char** argv)
 	{
 		positions.push_back(vec3<Real>(5 * cos(i/4.),5 * sin(i/4.),i/4.));
 	}
-	IPhysicalObject* dlo = new TorsionDLO(positions, .3, 50*0.1);
-	dlo->SetDampingCoefficient(0.01);
+	IPhysicalObject* dlo = new TorsionDLO(positions, .3, 50 * 0.05);
+	dlo->SetDampingCoefficient(5);
 	dlo->SetKl(100);
-	dlo->SetKd(.1);
-	dlo->SetKts(11.5);
-	dlo->SetKtd(.12);
-	dlo->SetKsw(0.1);
-	dlo->SetIntegrationMethod(IPhysicalObject::IntegrationMethod::MIDPOINT);
+	dlo->SetKd(5);
+#define MAG 0.01
+	dlo->SetKts(MAG * 80);
+	dlo->SetKtd(MAG * 15);
+	dlo->SetKsw(MAG * 15);
+	dlo->SetLengthConstraintFraction(0.2);
+	dlo->SetIntegrationMethod(IPhysicalObject::IntegrationMethod::HALF_STEP);
 
 	this->objects.push_back(dlo);
 
@@ -78,6 +80,7 @@ void World::Init(int argc, char** argv)
 
 	for (vector<IPhysicalObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
 	{
+		(*it)->Update();
 		(*it)->Render();
 	}
 

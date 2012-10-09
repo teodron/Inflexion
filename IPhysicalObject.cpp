@@ -172,6 +172,7 @@ void IPhysicalObject::Update()
 	
 	//Apply position constraints (length-preserving)
 	ResetDisplacements();
+	ComputeConstraintContributions();
 	ComputeCorrectedPositions();
 
 	// HandleCollisions
